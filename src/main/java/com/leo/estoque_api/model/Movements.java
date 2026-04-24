@@ -14,6 +14,7 @@ import java.time.OffsetDateTime;
 public class Movements {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne

@@ -38,6 +38,9 @@ public class ProductService {
     @Transactional
     public ProductResponseDTO registrationProduct(ProductRequestDTO dto) {
 
+        if (productRepository.existsByName(dto.name()))
+            throw new BusinessRuleException("This Product already exists.");
+
         Provider provider = providerRepository.findById(dto.providerId())
                 .orElseThrow(() -> new ResourceNotFoundException("Provider not found."));
 
@@ -45,9 +48,7 @@ public class ProductService {
                 .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
 
         Product product = mapper.toProduct(dto, provider, category);
-
-        if (productRepository.existsByName(product.getName()))
-            throw new BusinessRuleException("This Product already exists.");
+        product.setActive(true);
 
         return mapper.toProductResponseDTO(productRepository.save(product));
     }

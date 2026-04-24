@@ -15,6 +15,7 @@ import java.time.OffsetDateTime;
 public class Product {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 30)
@@ -27,7 +28,7 @@ public class Product {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private Long quantity;
+    private Long stock;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "provider_id")

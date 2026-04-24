@@ -2,6 +2,8 @@ package com.leo.estoque_api.controller;
 
 import com.leo.estoque_api.dto.request.ProductRequestDTO;
 import com.leo.estoque_api.dto.response.ProductResponseDTO;
+import com.leo.estoque_api.exceptions.BusinessRuleException;
+import com.leo.estoque_api.exceptions.ResourceNotFoundException;
 import com.leo.estoque_api.model.Product;
 import com.leo.estoque_api.repository.ProductRepository;
 import com.leo.estoque_api.service.ProductService;
@@ -26,10 +28,21 @@ public class ProductController {
         return productRepository.findAll();
     }
 
+    @GetMapping("/{id}")
+    public ProductResponseDTO findById(@PathVariable Long id) {
+        return productService.findById(id);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponseDTO save(@RequestBody ProductRequestDTO productRequestDTO) {
-        return productService.registrationProduct(productRequestDTO);
+
+        try {
+            return productService.registrationProduct(productRequestDTO);
+        } catch (ResourceNotFoundException e) {
+            throw new BusinessRuleException(e.getMessage());
+        }
+
     }
 
 }

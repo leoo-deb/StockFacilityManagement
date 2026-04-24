@@ -19,7 +19,7 @@ public class ProductMapper {
                 product.getName(),
                 product.getDescription(),
                 product.getPrice(),
-                product.getQuantity(),
+                product.getStock(),
                 product.getProvider().getName(),
                 product.getProvider().getId(),
                 product.getCategory().getName(),
@@ -37,7 +37,7 @@ public class ProductMapper {
         product.setName(productRequestDTO.name());
         product.setDescription(productRequestDTO.description());
         product.setPrice(productRequestDTO.price());
-        product.setQuantity(productRequestDTO.quantity());
+        product.setStock(productRequestDTO.quantity());
         product.setProvider(provider);
         product.setCategory(category);
         product.setActive(productRequestDTO.active());
