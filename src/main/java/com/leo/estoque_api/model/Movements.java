@@ -2,6 +2,7 @@ package com.leo.estoque_api.model;
 
 import com.leo.estoque_api.model.enums.TypeMovements;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -10,6 +11,7 @@ import java.time.OffsetDateTime;
 
 @Entity
 @Data
+@Builder
 @EqualsAndHashCode(of = "id")
 public class Movements {
 

@@ -1,11 +1,13 @@
 package com.leo.estoque_api.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
+@Builder
 @EqualsAndHashCode(of = "id")
 public class Category {
 

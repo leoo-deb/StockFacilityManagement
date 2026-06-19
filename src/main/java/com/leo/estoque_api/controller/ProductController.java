@@ -30,7 +30,7 @@ public class ProductController {
 
     @GetMapping("/{id}")
     public ProductResponseDTO findById(@PathVariable Long id) {
-        return productService.findById(id);
+        return productService.findDtoById(id);
     }
 
     @PostMapping

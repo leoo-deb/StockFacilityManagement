@@ -1,6 +1,7 @@
 package com.leo.estoque_api.model;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.hibernate.annotations.CreationTimestamp;
@@ -12,6 +13,7 @@ import java.util.List;
 
 @Entity
 @Data
+@Builder
 @EqualsAndHashCode(of = "id")
 public class User {
 

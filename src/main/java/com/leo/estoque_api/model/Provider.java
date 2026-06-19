@@ -1,11 +1,13 @@
 package com.leo.estoque_api.model;
 
 import jakarta.persistence.*;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 @Entity
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 public class Provider {
 
@@ -16,16 +18,16 @@ public class Provider {
     @Column(nullable = false, length = 30)
     private String name;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String cnpj;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
 
     @Column(nullable = false)
     private String contact;
 
     @Column(nullable = false)
-    private Boolean active;
+    private Boolean active = Boolean.TRUE;
 
 }

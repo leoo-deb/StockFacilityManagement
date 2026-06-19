@@ -1,6 +1,6 @@
 package com.leo.estoque_api.service;
 
-import com.leo.estoque_api.dto.mapper.ProductMapper;
+import com.leo.estoque_api.mapper.ProductMapper;
 import com.leo.estoque_api.dto.request.ProductRequestDTO;
 import com.leo.estoque_api.dto.response.ProductResponseDTO;
 import com.leo.estoque_api.exceptions.BusinessRuleException;
@@ -8,58 +8,52 @@ import com.leo.estoque_api.exceptions.ResourceNotFoundException;
 import com.leo.estoque_api.model.Category;
 import com.leo.estoque_api.model.Product;
 import com.leo.estoque_api.model.Provider;
-import com.leo.estoque_api.repository.CategoryRepository;
 import com.leo.estoque_api.repository.MovementsRepository;
 import com.leo.estoque_api.repository.ProductRepository;
-import com.leo.estoque_api.repository.ProviderRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
+@AllArgsConstructor
+@NoArgsConstructor
 public class ProductService {
 
-    @Autowired
     private ProductRepository productRepository;
-
-    @Autowired
-    private ProviderRepository providerRepository;
-
-    @Autowired
-    private CategoryRepository categoryRepository;
-
+    private ProviderService providerService;
+    private CategoryService categoryService;
     // TODO
-    @Autowired
     private MovementsRepository movementsRepository;
 
-    @Autowired
-    private ProductMapper mapper;
+    private ProductMapper productMapper;
 
     @Transactional
     public ProductResponseDTO registrationProduct(ProductRequestDTO dto) {
+        Product product = productMapper.toProduct(dto);
+        validateProduct(product);
 
-        if (productRepository.existsByName(dto.name()))
-            throw new BusinessRuleException("This Product already exists.");
-
-        Provider provider = providerRepository.findById(dto.providerId())
-                .orElseThrow(() -> new ResourceNotFoundException("Provider not found."));
-
-        Category category = categoryRepository.findById(dto.categoryId())
-                .orElseThrow(() -> new ResourceNotFoundException("Category not found."));
-
-        Product product = mapper.toProduct(dto, provider, category);
-        product.setActive(true);
-
-        return mapper.toProductResponseDTO(productRepository.save(product));
+        return productMapper.toProductDto(productRepository.save(product));
     }
 
-    public ProductResponseDTO findById(Long id) {
+    private void validateProduct(Product product) {
+        if (productRepository.existsByName(product.getName()))
+            throw new BusinessRuleException("This Product already exists.");
 
+        Provider provider = providerService.findById(product.getProvider().getId());
+        Category category = categoryService.findById(product.getCategory().getId());
+
+        product.setProvider(provider);
+        product.setCategory(category);
+    }
+
+    public ProductResponseDTO findDtoById(Long id) {
         Product product =  productRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Product not found."));
 
-        return mapper.toProductResponseDTO(product);
-
+        return productMapper.toProductDto(product);
     }
 
 }

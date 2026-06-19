@@ -8,9 +8,9 @@ public record ProductResponseDTO(
   String description,
   BigDecimal price,
   Long quantity,
-  String nameProvider,
+  String provider,
   Long providerId,
-  String nameCategory,
+  String category,
   Long categoryId,
   Boolean active
 ) {}
