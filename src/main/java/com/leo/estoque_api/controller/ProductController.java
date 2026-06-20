@@ -3,7 +3,7 @@ package com.leo.estoque_api.controller;
 import com.leo.estoque_api.dto.request.ProductRequestDTO;
 import com.leo.estoque_api.dto.response.ProductResponseDTO;
 import com.leo.estoque_api.exceptions.BusinessRuleException;
-import com.leo.estoque_api.exceptions.ResourceNotFoundException;
+import com.leo.estoque_api.exceptions.EntityNotFoundException;
 import com.leo.estoque_api.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,15 +31,21 @@ public class ProductController {
     }
 
     @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<ProductResponseDTO> save(@RequestBody @Valid ProductRequestDTO productRequestDTO) {
         try {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(productService.registrationProduct(productRequestDTO));
-        } catch (ResourceNotFoundException e) {
+        } catch (EntityNotFoundException e) {
             throw new BusinessRuleException(e.getMessage());
         }
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<ProductResponseDTO> update(@PathVariable Long id,
+                                                     @RequestBody @Valid ProductRequestDTO productRequestDTO) {
+        ProductResponseDTO productResponseDTO = productService.updateProduct(id, productRequestDTO);
+        return ResponseEntity.ok(productResponseDTO);
     }
 
 }

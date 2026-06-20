@@ -1,6 +1,6 @@
 package com.leo.estoque_api.exceptions;
 
-public class ProductNotFoundException extends ResourceNotFoundException {
+public class ProductNotFoundException extends EntityNotFoundException {
     public ProductNotFoundException(String message) {
         super(message);
     }

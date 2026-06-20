@@ -1,6 +1,6 @@
 package com.leo.estoque_api.exceptions;
 
-public class ProviderNotFoundException extends ResourceNotFoundException {
+public class ProviderNotFoundException extends EntityNotFoundException {
     public ProviderNotFoundException(String message) {
         super(message);
     }
