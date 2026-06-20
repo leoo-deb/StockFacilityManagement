@@ -11,16 +11,14 @@ public record ProductRequestDTO(
    @NotBlank(message = "Descrição não pode ser vazia.")
    String description,
 
-   @NotNull
-   @PositiveOrZero
+   @NotNull(message = "Preço não pode ser vazio.")
+   @PositiveOrZero(message = "Preço deve ser maior ou igual à zero.")
    BigDecimal price,
 
-   @Positive
+   @NotNull(message = "Quantidade não pode ser vazia.")
+   @Positive(message = "Quantidade deve ser maior que zero.")
    Long quantity,
 
-   @NotNull
-   Long providerId,
-
-   @NotNull
+   @NotNull(message = "Id da categoria não pode ser vazia.")
    Long categoryId
 ) {}

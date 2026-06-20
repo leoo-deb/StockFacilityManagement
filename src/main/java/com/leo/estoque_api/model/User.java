@@ -1,9 +1,7 @@
 package com.leo.estoque_api.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.CurrentTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -15,6 +13,8 @@ import java.util.List;
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
     @Id

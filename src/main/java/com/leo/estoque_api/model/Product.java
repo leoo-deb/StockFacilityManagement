@@ -1,9 +1,7 @@
 package com.leo.estoque_api.model;
 
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -14,6 +12,8 @@ import java.time.OffsetDateTime;
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Product {
 
     @Id
@@ -30,18 +30,17 @@ public class Product {
     private BigDecimal price;
 
     @Column(nullable = false)
-    private Long stock;
+    private Long quantity;
 
-    @ManyToOne
-    @JoinColumn(nullable = false, name = "provider_id")
-    private Provider provider;
+    @Column(nullable = false)
+    private BigDecimal totalValue;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "category_id")
     private Category category;
 
     @Column(nullable = false)
-    private Boolean active;
+    private Boolean active = Boolean.TRUE;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
@@ -50,5 +49,20 @@ public class Product {
     @UpdateTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime updatedAt;
+
+    public void sumTotalPrice() {
+        BigDecimal price = this.price;
+        Long quantity = this.quantity;
+
+        if (price == null) {
+            price = BigDecimal.ZERO;
+        }
+
+        if (quantity == null) {
+            quantity = 0L;
+        }
+
+        this.totalValue = price.multiply(new BigDecimal(quantity));
+    }
 
 }

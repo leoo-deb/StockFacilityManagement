@@ -4,11 +4,11 @@ import com.leo.estoque_api.dto.request.ProductRequestDTO;
 import com.leo.estoque_api.dto.response.ProductResponseDTO;
 import com.leo.estoque_api.exceptions.BusinessRuleException;
 import com.leo.estoque_api.exceptions.ResourceNotFoundException;
-import com.leo.estoque_api.model.Product;
-import com.leo.estoque_api.repository.ProductRepository;
 import com.leo.estoque_api.service.ProductService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,14 +18,11 @@ import java.util.List;
 public class ProductController {
 
     @Autowired
-    private ProductRepository productRepository;
-
-    @Autowired
     private ProductService productService;
 
     @GetMapping
-    public List<Product> findAll() {
-        return productRepository.findAll();
+    public ResponseEntity<List<ProductResponseDTO>> findAll() {
+        return ResponseEntity.ok(productService.listAllProducts());
     }
 
     @GetMapping("/{id}")
@@ -35,14 +32,14 @@ public class ProductController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public ProductResponseDTO save(@RequestBody ProductRequestDTO productRequestDTO) {
-
+    public ResponseEntity<ProductResponseDTO> save(@RequestBody @Valid ProductRequestDTO productRequestDTO) {
         try {
-            return productService.registrationProduct(productRequestDTO);
+            return ResponseEntity
+                    .status(HttpStatus.CREATED)
+                    .body(productService.registrationProduct(productRequestDTO));
         } catch (ResourceNotFoundException e) {
             throw new BusinessRuleException(e.getMessage());
         }
-
     }
 
 }
