@@ -65,4 +65,16 @@ public class Product {
         this.totalValue = price.multiply(new BigDecimal(quantity));
     }
 
+    public Boolean isActive() {
+        return active;
+    }
+
+    public void registerEntry(Long quantity) {
+        this.quantity += quantity;
+    }
+
+    public void registerExit(Long quantity) {
+        this.quantity -= quantity;
+    }
+
 }

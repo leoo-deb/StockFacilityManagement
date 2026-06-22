@@ -7,7 +7,7 @@ import com.leo.estoque_api.dto.response.ProductResponseDTO;
 import com.leo.estoque_api.exceptions.BusinessRuleException;
 import com.leo.estoque_api.model.Category;
 import com.leo.estoque_api.model.Product;
-import com.leo.estoque_api.repository.MovementsRepository;
+import com.leo.estoque_api.repository.MovementRepository;
 import com.leo.estoque_api.repository.ProductRepository;
 import jakarta.persistence.EntityManager;
 import jakarta.transaction.Transactional;
@@ -26,7 +26,7 @@ public class ProductService {
     private final CategoryService categoryService;
     private final EntityManager entityManager;
     // TODO
-    private MovementsRepository movementsRepository;
+    private MovementRepository movementsRepository;
 
     public List<ProductResponseDTO> listAllProducts() {
         return productMapper.toCollectionProductDTO(productRepository.findAll());

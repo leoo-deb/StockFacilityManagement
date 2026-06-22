@@ -27,24 +27,21 @@ public class User {
     @Column(nullable = false)
     private String email;
 
-    @Column(nullable = false, length = 15)
-    private String cpf;
-
     @Column(nullable = false)
     private String password;
 
     private Boolean active;
 
     @CurrentTimestamp
+    @Column(columnDefinition = "datetime")
     private OffsetDateTime lastLogin;
 
     @CreationTimestamp
+    @Column(columnDefinition = "datetime")
     private OffsetDateTime createdAt;
 
     @UpdateTimestamp
+    @Column(columnDefinition = "datetime")
     private OffsetDateTime updatedAt;
-
-    @OneToMany(mappedBy = "user")
-    private List<Movements>  movements;
 
 }

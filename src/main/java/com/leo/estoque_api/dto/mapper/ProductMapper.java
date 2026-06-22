@@ -12,7 +12,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
 
-
     ProductResponseDTO toProductDTO(Product product);
 
     @Mapping(target = "category", ignore = true)

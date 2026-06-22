@@ -13,7 +13,7 @@ import java.time.OffsetDateTime;
 @EqualsAndHashCode(of = "id")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Movements {
+public class Movement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,16 +23,22 @@ public class Movements {
     @JoinColumn(nullable = false, name = "product_id")
     private Product product;
 
+    @Column(nullable = false)
+    private Long quantity;
+
     @ManyToOne
     @JoinColumn(nullable = false, name = "user_id")
     private User user;
 
     @CreationTimestamp
-    private OffsetDateTime date;
+    @Column(columnDefinition = "datetime", nullable = false)
+    private OffsetDateTime dateTime;
 
-    @Column(nullable = false, length = 100)
-    private String description;
-
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private TypeMovements type;
+
+    @Column(length = 200)
+    private String description;
 
 }
