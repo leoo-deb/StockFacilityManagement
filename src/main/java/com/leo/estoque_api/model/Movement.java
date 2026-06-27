@@ -8,6 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.OffsetDateTime;
 
 @Entity
+@Table(name = "movements")
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")

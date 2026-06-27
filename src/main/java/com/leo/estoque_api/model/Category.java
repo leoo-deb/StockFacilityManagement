@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
+@Table(name = "categories")
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")

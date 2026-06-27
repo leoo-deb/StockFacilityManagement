@@ -1,7 +1,5 @@
-package com.leo.estoque_api.dto.mapper;
+package com.leo.estoque_api.dto.product;
 
-import com.leo.estoque_api.dto.request.ProductRequestDTO;
-import com.leo.estoque_api.dto.response.ProductResponseDTO;
 import com.leo.estoque_api.model.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

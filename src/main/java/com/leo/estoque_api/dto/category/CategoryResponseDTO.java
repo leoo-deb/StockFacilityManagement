@@ -1,4 +1,4 @@
-package com.leo.estoque_api.dto.response;
+package com.leo.estoque_api.dto.category;
 
 public record CategoryResponseDTO(
         Long id,

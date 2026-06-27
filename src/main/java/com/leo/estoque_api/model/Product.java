@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 
 @Entity
+@Table(name = "products")
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")
@@ -29,18 +30,15 @@ public class Product {
     @Column(nullable = false)
     private BigDecimal price;
 
-    @Column(nullable = false)
-    private Long quantity;
-
-    @Column(nullable = false)
-    private BigDecimal totalValue;
+    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
+    private Stock stock;
 
     @ManyToOne
     @JoinColumn(nullable = false, name = "category_id")
     private Category category;
 
     @Column(nullable = false)
-    private Boolean active = Boolean.TRUE;
+    private Boolean active;
 
     @CreationTimestamp
     @Column(nullable = false, columnDefinition = "datetime")
@@ -50,31 +48,13 @@ public class Product {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime updatedAt;
 
-    public void sumTotalPrice() {
-        BigDecimal price = this.price;
-        Long quantity = this.quantity;
-
-        if (price == null) {
-            price = BigDecimal.ZERO;
-        }
-
-        if (quantity == null) {
-            quantity = 0L;
-        }
-
-        this.totalValue = price.multiply(new BigDecimal(quantity));
+    @PrePersist
+    private void prePersist() {
+        this.active = Boolean.TRUE;
     }
 
     public Boolean isActive() {
         return active;
-    }
-
-    public void registerEntry(Long quantity) {
-        this.quantity += quantity;
-    }
-
-    public void registerExit(Long quantity) {
-        this.quantity -= quantity;
     }
 
 }

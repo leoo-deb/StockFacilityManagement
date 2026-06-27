@@ -1,7 +1,7 @@
 package com.leo.estoque_api.controller;
 
-import com.leo.estoque_api.dto.request.CategoryRequestDTO;
-import com.leo.estoque_api.dto.response.CategoryResponseDTO;
+import com.leo.estoque_api.dto.category.CategoryRequestDTO;
+import com.leo.estoque_api.dto.category.CategoryResponseDTO;
 import com.leo.estoque_api.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;

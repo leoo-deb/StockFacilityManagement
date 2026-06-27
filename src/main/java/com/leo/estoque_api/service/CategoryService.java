@@ -1,8 +1,8 @@
 package com.leo.estoque_api.service;
 
-import com.leo.estoque_api.dto.mapper.CategoryMapper;
-import com.leo.estoque_api.dto.request.CategoryRequestDTO;
-import com.leo.estoque_api.dto.response.CategoryResponseDTO;
+import com.leo.estoque_api.dto.category.CategoryMapper;
+import com.leo.estoque_api.dto.category.CategoryRequestDTO;
+import com.leo.estoque_api.dto.category.CategoryResponseDTO;
 import com.leo.estoque_api.exceptions.BusinessRuleException;
 import com.leo.estoque_api.exceptions.CategoryNotFoundException;
 import com.leo.estoque_api.model.Category;

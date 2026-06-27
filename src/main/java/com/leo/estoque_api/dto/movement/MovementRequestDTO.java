@@ -1,6 +1,5 @@
-package com.leo.estoque_api.dto.request;
+package com.leo.estoque_api.dto.movement;
 
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 

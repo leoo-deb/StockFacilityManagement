@@ -1,4 +1,6 @@
-package com.leo.estoque_api.dto.response;
+package com.leo.estoque_api.dto.product;
+
+import com.leo.estoque_api.dto.category.CategoryResponseDTO;
 
 import java.math.BigDecimal;
 
@@ -7,7 +9,5 @@ public record ProductResponseDTO(
   String name,
   String description,
   BigDecimal price,
-  Long quantity,
-  BigDecimal totalValue,
   CategoryResponseDTO category
 ) {}

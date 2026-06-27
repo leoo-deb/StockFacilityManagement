@@ -1,9 +1,9 @@
 package com.leo.estoque_api.controller;
 
-import com.leo.estoque_api.dto.request.ProductRequestDTO;
-import com.leo.estoque_api.dto.response.ProductResponseDTO;
+import com.leo.estoque_api.dto.product.ProductRequestDTO;
+import com.leo.estoque_api.dto.product.ProductResponseDTO;
 import com.leo.estoque_api.exceptions.BusinessRuleException;
-import com.leo.estoque_api.exceptions.EntityNotFoundException;
+import com.leo.estoque_api.exceptions.CategoryNotFoundException;
 import com.leo.estoque_api.service.ProductService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +36,8 @@ public class ProductController {
             return ResponseEntity
                     .status(HttpStatus.CREATED)
                     .body(productService.registrationProduct(productRequestDTO));
-        } catch (EntityNotFoundException e) {
-            throw new BusinessRuleException(e.getMessage());
+        } catch (CategoryNotFoundException e) {
+            throw new BusinessRuleException(e.getMessage(), e);
         }
     }
 

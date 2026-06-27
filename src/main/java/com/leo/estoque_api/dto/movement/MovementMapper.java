@@ -1,7 +1,5 @@
-package com.leo.estoque_api.dto.mapper;
+package com.leo.estoque_api.dto.movement;
 
-import com.leo.estoque_api.dto.request.MovementRequestDTO;
-import com.leo.estoque_api.dto.response.MovementResponseDTO;
 import com.leo.estoque_api.model.Movement;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
