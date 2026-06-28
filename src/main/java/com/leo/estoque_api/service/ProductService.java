@@ -53,10 +53,21 @@ public class ProductService {
         return productMapper.toProductDTO(productCurrent);
     }
 
+    @Transactional
+    public void toActiveProduct(Long id) {
+        Product product = findById(id);
+        product.toActive();
+    }
+
+    @Transactional
+    public void toInactiveProduct(Long id) {
+        Product product = findById(id);
+        product.toInactive();
+    }
+
     public ProductResponseDTO findDtoById(Long id) {
         Product product = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException(id));
-
         return productMapper.toProductDTO(product);
     }
 

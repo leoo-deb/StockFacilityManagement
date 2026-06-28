@@ -8,9 +8,9 @@ import com.leo.estoque_api.exceptions.CategoryNotFoundException;
 import com.leo.estoque_api.model.Category;
 import com.leo.estoque_api.repository.CategoryRepository;
 import jakarta.persistence.EntityManager;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +23,7 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
     private final EntityManager entityManager;
 
+    @Transactional(readOnly = true)
     public List<CategoryResponseDTO> listAllCategories() {
         return categoryMapper.toCollectionCategoryDTO(categoryRepository.findAll());
     }

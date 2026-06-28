@@ -33,7 +33,7 @@ public class Product {
     @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
     private Stock stock;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "category_id")
     private Category category;
 
@@ -55,6 +55,14 @@ public class Product {
 
     public Boolean isActive() {
         return active;
+    }
+
+    public void toActive() {
+        setActive(Boolean.TRUE);
+    }
+
+    public void toInactive() {
+        setActive(Boolean.FALSE);
     }
 
 }

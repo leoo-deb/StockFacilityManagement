@@ -30,7 +30,12 @@ public class StockService {
     @Transactional
     public StockResponseDTO registerEntry(StockRequestDTO dto) {
         Stock stock = findByProduct(dto.productId());
-        validateEntryStock(stock, dto.productId());
+        Product product = productService.findById(dto.productId());
+
+        if (!product.isActive()) {
+            throw new BusinessRuleException(String.format("Não é possível registrar uma " +
+                    "entrada com o produto de código %d, pois está inativo.", dto.productId()));
+        }
 
         stock.registerEntry(dto.quantity());
         stock.sumTotalPrice();
@@ -40,7 +45,17 @@ public class StockService {
     @Transactional
     public StockResponseDTO registerExit(StockRequestDTO dto) {
         Stock stock = findByProduct(dto.productId());
-        validateExitStock(stock, dto.productId(), dto.quantity());
+        Product product = productService.findById(dto.productId());
+
+        if (!product.isActive()) {
+            throw new BusinessRuleException(String.format("Não é possível registrar uma " +
+                    "entrada com o produto de código %d, pois está inativo.", dto.productId()));
+        }
+
+        if (stock.getQuantity() < dto.quantity()) {
+            throw new BusinessRuleException(String.format("Estoque do produto de código %d não possui quantidade " +
+                    "suficiente para registrar uma saída. Quantidade atual: %d", dto.productId(), stock.getQuantity()));
+        }
 
         stock.registerExit(dto.quantity());
         stock.sumTotalPrice();
@@ -50,33 +65,6 @@ public class StockService {
     public Stock findByProduct(Long productId) {
         return stockRepository.findByProductId(productId)
                 .orElseThrow(() -> new StockNotFoundException(productId));
-    }
-
-    private void validateEntryStock(Stock stock, Long productId) {
-        Product product = productService.findById(productId);
-
-        if (!product.isActive()) {
-            throw new BusinessRuleException(String.format("Não é possível registrar uma " +
-                    "entrada com o produto de código %d, pois está inativo.", productId));
-        }
-
-        stock.setProduct(product);
-    }
-
-    private void validateExitStock(Stock stock, Long productId, Long quantity) {
-        Product product = productService.findById(productId);
-
-        if (!product.isActive()) {
-            throw new BusinessRuleException(String.format("Não é possível registrar uma " +
-                    "entrada com o produto de código %d, pois está inativo.", productId));
-        }
-
-        if (stock.getQuantity() < quantity) {
-            throw new BusinessRuleException(String.format("Estoque do produto de código %d não possui quantidade " +
-                    "suficiente para registrar uma saída. Quantidade atual: %d", productId, stock.getQuantity()));
-        }
-
-        stock.setProduct(product);
     }
 
 }

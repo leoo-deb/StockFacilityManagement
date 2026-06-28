@@ -13,7 +13,6 @@ import java.util.List;
 public class MovementService {
 
     private final MovementRepository movementRepository;
-    private final ProductService productService;
     private final MovementMapper movementMapper;
 
     public List<MovementResponseDTO> listAllMovements() {
