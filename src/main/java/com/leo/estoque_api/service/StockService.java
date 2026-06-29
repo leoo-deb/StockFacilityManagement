@@ -31,11 +31,7 @@ public class StockService {
     public StockResponseDTO registerEntry(StockRequestDTO dto) {
         Stock stock = findByProduct(dto.productId());
         Product product = productService.findById(dto.productId());
-
-        if (!product.isActive()) {
-            throw new BusinessRuleException(String.format("Não é possível registrar uma " +
-                    "entrada com o produto de código %d, pois está inativo.", dto.productId()));
-        }
+        product.isActive();
 
         stock.registerEntry(dto.quantity());
         stock.sumTotalPrice();
@@ -46,11 +42,7 @@ public class StockService {
     public StockResponseDTO registerExit(StockRequestDTO dto) {
         Stock stock = findByProduct(dto.productId());
         Product product = productService.findById(dto.productId());
-
-        if (!product.isActive()) {
-            throw new BusinessRuleException(String.format("Não é possível registrar uma " +
-                    "entrada com o produto de código %d, pois está inativo.", dto.productId()));
-        }
+        product.isActive();
 
         if (stock.getQuantity() < dto.quantity()) {
             throw new BusinessRuleException(String.format("Estoque do produto de código %d não possui quantidade " +

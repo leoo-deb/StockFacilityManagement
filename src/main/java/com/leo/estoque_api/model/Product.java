@@ -1,5 +1,6 @@
 package com.leo.estoque_api.model;
 
+import com.leo.estoque_api.exceptions.BusinessRuleException;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,8 +54,11 @@ public class Product {
         this.active = Boolean.TRUE;
     }
 
-    public Boolean isActive() {
-        return active;
+    public void isActive() {
+        if (!this.active) {
+            throw new BusinessRuleException(String.format("Não é possível realizar " +
+                    "operações com o produto de código %d, pois está inativo.", getId()));
+        }
     }
 
     public void toActive() {

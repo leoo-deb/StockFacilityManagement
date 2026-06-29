@@ -9,5 +9,6 @@ public record ProductResponseDTO(
   String name,
   String description,
   BigDecimal price,
+  Boolean active,
   CategoryResponseDTO category
 ) {}
