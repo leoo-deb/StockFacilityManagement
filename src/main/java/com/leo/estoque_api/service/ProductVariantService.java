@@ -3,6 +3,7 @@ package com.leo.estoque_api.service;
 import com.leo.estoque_api.dto.productvariant.ProductVariantMapper;
 import com.leo.estoque_api.dto.productvariant.ProductVariantRequestDTO;
 import com.leo.estoque_api.dto.productvariant.ProductVariantResponseDTO;
+import com.leo.estoque_api.exceptions.BusinessRuleException;
 import com.leo.estoque_api.exceptions.ProductVariantNotFoundException;
 import com.leo.estoque_api.model.Product;
 import com.leo.estoque_api.model.ProductVariant;
@@ -32,6 +33,11 @@ public class ProductVariantService {
     @Transactional
     public ProductVariantResponseDTO createVariant(UUID productId, ProductVariantRequestDTO productVariantRequestDTO) {
         Product product = productService.findById(productId);
+
+        if (!product.isActive()) {
+            throw new BusinessRuleException(String.format("It is not possible to perform operations on the product " +
+                    "with code '%s', as it is unavailable.", productId));
+        }
 
         ProductVariant productVariant = productVariantMapper.toProductVariant(productVariantRequestDTO);
         productVariant.setProduct(product);
