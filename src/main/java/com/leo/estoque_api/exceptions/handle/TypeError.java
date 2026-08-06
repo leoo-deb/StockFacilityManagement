@@ -5,12 +5,12 @@ import lombok.Getter;
 @Getter
 public enum TypeError {
 
-    ENTITY_NOT_FOUND("Entidade não encontrada"),
-    BUSINESS_ROLE_VIOLATION("Violação de Regra de Negócio"),
-    SYSTEM_ERROR("Erro no servidor"),
-    INVALID_DATA("Dados Inválidos"),
-    INVALID_PARAMETER("Parâmetro Inválido"),
-    INVALID_BODY("Corpo Inválido");
+    ENTITY_NOT_FOUND("Entity not found"),
+    BUSINESS_ROLE_VIOLATION("Business Rule Violation"),
+    SYSTEM_ERROR("Server error"),
+    INVALID_DATA("Invalid Data"),
+    INVALID_PARAMETER("Invalid Parameter"),
+    INVALID_BODY("Invalid Body");
 
     private final String type;
 

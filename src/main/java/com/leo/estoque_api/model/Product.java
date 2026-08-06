@@ -8,6 +8,9 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Table(name = "products")
@@ -19,24 +22,21 @@ import java.time.OffsetDateTime;
 public class Product {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(nullable = false, length = 100)
-    private String name;
-
-    @Column(nullable = false, length = 200)
-    private String description;
-
-    @Column(nullable = false)
-    private BigDecimal price;
-
-    @OneToOne(mappedBy = "product", cascade = CascadeType.ALL)
-    private Stock stock;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(nullable = false, name = "category_id")
     private Category category;
+
+    @Column(nullable = false, length = 100)
+    private String name;
+
+    @Column(length = 500)
+    private String imageUrl;
+
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @Column(nullable = false)
     private Boolean active;
@@ -49,16 +49,11 @@ public class Product {
     @Column(nullable = false, columnDefinition = "datetime")
     private OffsetDateTime updatedAt;
 
-    @PrePersist
-    private void prePersist() {
-        this.active = Boolean.TRUE;
-    }
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL)
+    private List<ProductVariant> variants = new ArrayList<>();
 
-    public void isActive() {
-        if (!this.active) {
-            throw new BusinessRuleException(String.format("Não é possível realizar " +
-                    "operações com o produto de código %d, pois está inativo.", getId()));
-        }
+    public boolean isActive() {
+        return this.active;
     }
 
     public void toActive() {

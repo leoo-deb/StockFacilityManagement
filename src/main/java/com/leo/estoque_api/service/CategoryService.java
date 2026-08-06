@@ -21,7 +21,6 @@ public class CategoryService {
 
     private final CategoryRepository categoryRepository;
     private final CategoryMapper categoryMapper;
-    private final EntityManager entityManager;
 
     @Transactional(readOnly = true)
     public List<CategoryResponseDTO> listAllCategories() {
@@ -30,19 +29,24 @@ public class CategoryService {
 
     @Transactional
     public CategoryResponseDTO createCategory(CategoryRequestDTO dto) {
+        if (categoryRepository.existsByNameIgnoreCase(dto.name())) {
+            throw new BusinessRuleException(String.format("Category with name: '%s' already exists", dto.name()));
+        }
+
         Category category = categoryMapper.toCategory(dto);
-        validateCategory(category);
         return categoryMapper.toCategoryDTO(categoryRepository.save(category));
     }
 
     @Transactional
     public CategoryResponseDTO updateCategory(Long id, CategoryRequestDTO dto) {
         Category category = findById(id);
-        entityManager.detach(category);
+
+        if (!category.getName().equalsIgnoreCase(dto.name())
+                && categoryRepository.existsByNameIgnoreCase(dto.name())) {
+            throw new BusinessRuleException(String.format("Category with name: '%s' already exists.", dto.name()));
+        }
 
         categoryMapper.copyCategoryFromDto(dto, category);
-        validateCategory(category);
-
         return categoryMapper.toCategoryDTO(category);
     }
 
@@ -55,14 +59,6 @@ public class CategoryService {
         Category category = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException(id));
         return categoryMapper.toCategoryDTO(category);
-    }
-
-    private void validateCategory(Category category) {
-        Optional<Category> categoryExist = categoryRepository.findByName(category.getName());
-
-        if (categoryExist.isPresent() && !categoryExist.get().equals(category)) {
-            throw new BusinessRuleException(String.format("Categoria com nome %s já existe.", category.getName()));
-        }
     }
 
 }

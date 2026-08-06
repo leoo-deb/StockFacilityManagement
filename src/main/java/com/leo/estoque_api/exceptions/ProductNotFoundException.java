@@ -1,11 +1,13 @@
 package com.leo.estoque_api.exceptions;
 
+import java.util.UUID;
+
 public class ProductNotFoundException extends EntityNotFoundException {
     public ProductNotFoundException(String message) {
         super(message);
     }
 
-    public ProductNotFoundException(Long id) {
-        this(String.format("Produto de código %d não foi encontrado.", id));
+    public  ProductNotFoundException(UUID id) {
+        this(String.format("Code product '%s' was not found.", id));
     }
 }
