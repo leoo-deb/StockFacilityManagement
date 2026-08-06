@@ -2,9 +2,11 @@ package com.leo.estoque_api.controller;
 
 import com.leo.estoque_api.dto.category.CategoryRequestDTO;
 import com.leo.estoque_api.dto.category.CategoryResponseDTO;
+import com.leo.estoque_api.dto.common.PageResponse;
 import com.leo.estoque_api.service.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,8 +21,8 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @GetMapping
-    public ResponseEntity<List<CategoryResponseDTO>> listAllCategory() {
-        return ResponseEntity.ok(categoryService.listAllCategories());
+    public ResponseEntity<PageResponse<CategoryResponseDTO>> listAllCategory(Pageable pageable) {
+        return ResponseEntity.ok(new PageResponse<>(categoryService.listAllCategories(pageable)));
     }
 
     @GetMapping("/{id}")

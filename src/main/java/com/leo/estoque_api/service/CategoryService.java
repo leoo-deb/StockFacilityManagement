@@ -7,13 +7,13 @@ import com.leo.estoque_api.exceptions.BusinessRuleException;
 import com.leo.estoque_api.exceptions.CategoryNotFoundException;
 import com.leo.estoque_api.model.Category;
 import com.leo.estoque_api.repository.CategoryRepository;
-import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,8 +23,9 @@ public class CategoryService {
     private final CategoryMapper categoryMapper;
 
     @Transactional(readOnly = true)
-    public List<CategoryResponseDTO> listAllCategories() {
-        return categoryMapper.toCollectionCategoryDTO(categoryRepository.findAll());
+    public Page<CategoryResponseDTO> listAllCategories(Pageable pageable) {
+        return categoryRepository.findAll(pageable)
+                .map(categoryMapper::toCategoryDTO);
     }
 
     @Transactional
