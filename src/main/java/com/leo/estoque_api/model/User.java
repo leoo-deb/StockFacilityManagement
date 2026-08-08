@@ -10,7 +10,7 @@ import java.time.OffsetDateTime;
 import java.util.List;
 
 @Entity
-@Table(name = "users")
+@Table(name = "tb_users")
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")

@@ -3,8 +3,11 @@ package com.leo.estoque_api.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
-@Table(name = "categories")
+@Table(name = "tb_categories")
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")
@@ -18,5 +21,8 @@ public class Category {
 
     @Column(nullable = false, length = 30)
     private String name;
+
+    @OneToMany(mappedBy = "category")
+    private List<Product> products = new ArrayList<>();
 
 }

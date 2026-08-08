@@ -25,9 +25,6 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
-    @Autowired
-    private ProductVariantMapper productVariantMapper;
-
     @PostMapping
     public ResponseEntity<ProductResponseDTO> save(@RequestBody @Valid ProductRequestDTO productRequestDTO) {
         try {
@@ -40,8 +37,16 @@ public class ProductController {
     }
 
     @GetMapping
-    public ResponseEntity<PageResponse<ProductResponseDTO>> findAll(Pageable pageable) {
+    public ResponseEntity<PageResponse<ProductResponseDTO>> listAllProducts(Pageable pageable) {
         return ResponseEntity.ok(new PageResponse<>(productService.listAllProductsPage(pageable)));
+    }
+
+    @GetMapping("/categories/{idCategory}")
+    public ResponseEntity<PageResponse<ProductResponseDTO>> listAllProductsByCategory(@PathVariable Long idCategory,
+                                                                                      Pageable pageable) {
+        Page<ProductResponseDTO> productResponsePage = productService
+                .listAllProductsByCategory(idCategory, pageable);
+        return ResponseEntity.ok(new PageResponse<>(productResponsePage));
     }
 
     @GetMapping("/{id}")

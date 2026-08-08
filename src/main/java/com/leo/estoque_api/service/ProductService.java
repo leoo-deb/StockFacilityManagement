@@ -25,13 +25,18 @@ public class ProductService {
     private final ProductRepository productRepository;
     private final ProductMapper productMapper;
     private final CategoryService categoryService;
-    private final EntityManager entityManager;
     // TODO
     private MovementRepository movementsRepository;
 
     @Transactional(readOnly = true)
     public Page<ProductResponseDTO> listAllProductsPage(Pageable pageable) {
         return productRepository.findAll(pageable)
+                .map(productMapper::toProductDTO);
+    }
+
+    @Transactional(readOnly = true)
+    public Page<ProductResponseDTO> listAllProductsByCategory(Long idCategory, Pageable pageable) {
+        return productRepository.findAllByCategoryId(idCategory, pageable)
                 .map(productMapper::toProductDTO);
     }
 
@@ -43,7 +48,6 @@ public class ProductService {
         if (productRepository.existsByNameIgnoreCase(dto.name())) {
             throw new BusinessRuleException(String.format("Product with name '%s' already exists.", dto.name()));
         }
-
         validateProduct(product, dto);
 
         return productMapper.toProductDTO(productRepository.save(product));
@@ -57,10 +61,9 @@ public class ProductService {
                 && productRepository.existsByNameIgnoreCase(dto.name())) {
             throw new BusinessRuleException(String.format("Product with name '%s' already exists.", dto.name()));
         }
-
-        productMapper.copyProductFromDto(dto, productCurrent);
         validateProduct(productCurrent, dto);
 
+        productMapper.copyProductFromDto(dto, productCurrent);
         return productMapper.toProductDTO(productCurrent);
     }
 

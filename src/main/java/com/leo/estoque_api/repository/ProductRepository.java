@@ -1,6 +1,8 @@
 package com.leo.estoque_api.repository;
 
 import com.leo.estoque_api.model.Product;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -15,5 +17,7 @@ public interface ProductRepository extends JpaRepository<Product, UUID> {
     List<Product> findAll();
 
     boolean existsByNameIgnoreCase(String name);
+
+    Page<Product> findAllByCategoryId(Long id, Pageable pageable);
 
 }

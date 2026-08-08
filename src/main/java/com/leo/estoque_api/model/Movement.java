@@ -8,7 +8,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.OffsetDateTime;
 
 @Entity
-@Table(name = "movements")
+@Table(name = "tb_movements")
 @Data
 @Builder
 @EqualsAndHashCode(of = "id")
@@ -21,8 +21,12 @@ public class Movement {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(nullable = false, name = "product_id")
-    private Product product;
+    @JoinColumn(nullable = false, name = "variant_id")
+    private ProductVariant productVariant;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private TypeMovements type;
 
     @Column(nullable = false)
     private Long quantity;
@@ -35,11 +39,7 @@ public class Movement {
     @Column(columnDefinition = "datetime", nullable = false)
     private OffsetDateTime dateTime;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private TypeMovements type;
-
-    @Column(length = 200)
+    @Column(columnDefinition = "TEXT")
     private String description;
 
 }

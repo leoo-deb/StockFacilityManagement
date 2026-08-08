@@ -3,11 +3,16 @@ package com.leo.estoque_api.dto.movement;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
-public record MovementRequestDTO(
-        @NotNull(message = "productId é obrigatório")
-        Long productId,
+import java.util.UUID;
 
-        @NotNull(message = "Quantidade é obrigatória")
+public record MovementRequestDTO(
+        @NotNull(message = "variantId is required.")
+        UUID variantId,
+
+        @NotNull(message = "Type is required.")
+        String type,
+
+        @NotNull(message = "Quantity is required")
         @Positive(message = "Não é possível fazer um registro de uma quatidade negativa")
         Long quantity,
 

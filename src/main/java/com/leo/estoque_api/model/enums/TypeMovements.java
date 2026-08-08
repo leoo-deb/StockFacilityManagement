@@ -8,7 +8,8 @@ public enum TypeMovements {
     ENTRY("Entrada"),
     EXIT("Saída"),
     REGISTRATION("Registro"),
-    DEACTIVATION("Desativação");
+    DEACTIVATION("Desativação"),
+    LOSS("Loss");
 
     private final String type;
 

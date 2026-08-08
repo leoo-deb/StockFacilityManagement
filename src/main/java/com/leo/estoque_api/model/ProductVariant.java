@@ -7,7 +7,7 @@ import java.math.BigDecimal;
 import java.util.UUID;
 
 @Entity
-@Table(name = "product_variants")
+@Table(name = "tb_product_variants")
 @Data
 @EqualsAndHashCode(of = "id")
 @AllArgsConstructor
